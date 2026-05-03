@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Age Calculator Tool</title>
+<style>
+  body {font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin:0; padding:0;}
+  header {background:#0984e3; color:#fff; padding:40px; text-align:center;}
+  header h1 {margin:0; font-size:2.5em;}
+  header p {margin-top:10px; font-size:1.2em;}
+  section {padding:40px; max-width:900px; margin:auto;}
+  h2 {color:#2c3e50;}
+  .tool-box {background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+  .section {margin-bottom:20px; padding:15px; border-radius:8px;}
+  .input-section {background:#ecf0f1;}
+  .result-section {background:#dff9fb;}
+  .horoscope {background:#ffeaa7;}
+  .birthday {background:#fab1a0;}
+  .wish {background:#55efc4; font-weight:bold;}
+  label {display:block; margin-top:10px;}
+  input {padding:8px; margin-top:5px; width:200px;}
+  button {margin-top:15px; padding:10px 20px; background:#0984e3; color:#fff; border:none; border-radius:5px; cursor:pointer;}
+  ul {line-height:1.6;}
+  footer {background:#2c3e50; color:#fff; text-align:center; padding:20px; margin-top:40px;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>✨ Age Calculator Tool ✨</h1>
+  <p>Find your exact age, zodiac sign, next birthday, and receive a positive wish!</p>
+</header>
+
+<section>
+  <div class="tool-box">
+    <h2>🎯 Try the Tool</h2>
+    <div class="section input-section">
+      <h3>Enter Your Details</h3>
+      <label for="birthDate">Birth Date (DD/MM/YYYY):</label>
+      <input type="text" id="birthDate" placeholder="e.g. 25/12/1995">
+      
+      <label for="presentDate">Present Date (DD/MM/YYYY):</label>
+      <input type="text" id="presentDate" placeholder="e.g. 03/05/2026">
+      
+      <button onclick="calculateAge()">Calculate Age</button>
+    </div>
+
+    <div id="results" class="section result-section" style="display:none;">
+      <h3>🎉 Your Age</h3>
+      <p id="age"></p>
+    </div>
+
+    <div id="horoscopeSection" class="section horoscope" style="display:none;">
+      <h3>🔮 Your Horoscope</h3>
+      <p id="horoscope"></p>
+    </div>
+
+    <div id="birthdaySection" class="section birthday" style="display:none;">
+      <h3>🎂 Next Birthday</h3>
+      <p id="nextBirthday"></p>
+    </div>
+
+    <div id="wishSection" class="section wish" style="display:none;">
+      <h3>🌟 Positive Wish</h3>
+      <p id="wish"></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>📖 What is this Age Calculator?</h2>
+  <p>This is a simple yet powerful tool that calculates your exact age in years, months, and days. It also shows your zodiac sign, tells you when your next birthday is coming, and gives you a motivational wish to brighten your day.</p>
+</section>
+
+<section>
+  <h2>💡 Why Use It?</h2>
+  <ul>
+    <li>Quickly know your precise age.</li>
+    <li>Discover your horoscope sign instantly.</li>
+    <li>See how many days are left until your next birthday.</li>
+    <li>Get a positive wish to inspire your journey.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🛠️ How to Use</h2>
+  <ol>
+    <li>Enter your birth date in <b>DD/MM/YYYY</b> format.</li>
+    <li>Enter today’s date in <b>DD/MM/YYYY</b> format.</li>
+    <li>Click <b>Calculate Age</b>.</li>
+    <li>View your age, horoscope, next birthday, and wish instantly.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>❓ FAQ</h2>
+  <p><b>Q: Can I use this on mobile?</b><br>Yes, it works perfectly on mobile browsers.</p>
+  <p><b>Q: What horoscope system is used?</b><br>Western zodiac signs based on your birth date.</p>
+  <p><b>Q: Do I need to install anything?</b><br>No, it runs directly in your browser.</p>
+</section>
+
+<footer>
+  <p>© 2026 SmartDailyTrick Blog | Age Calculator Tool</p>
+</footer>
+
+<script>
+function calculateAge() {
+  const birthInput = document.getElementById("birthDate").value;
+  const presentInput = document.getElementById("presentDate").value;
+
+  const [bDay, bMonth, bYear] = birthInput.split("/").map(Number);
+  const [pDay, pMonth, pYear] = presentInput.split("/").map(Number);
+
+  const birthDate = new Date(bYear, bMonth - 1, bDay);
+  const presentDate = new Date(pYear, pMonth - 1, pDay);
+
+  let ageYears = pYear - bYear;
+  let ageMonths = pMonth - bMonth;
+  let ageDays = pDay - bDay;
+
+  if (ageDays < 0) {
+    ageMonths--;
+    ageDays += new Date(pYear, pMonth - 1, 0).getDate();
+  }
+  if (ageMonths < 0) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("age").innerText = 
+    `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+
+  // Horoscope
+  const zodiacSigns = [
+    { sign: "Capricorn", start: "12/22", end: "01/19" },
+    { sign: "Aquarius", start: "01/20", end: "02/18" },
+    { sign: "Pisces", start: "02/19", end: "03/20" },
+    { sign: "Aries", start: "03/21", end: "04/19" },
+    { sign: "Taurus", start: "04/20", end: "05/20" },
+    { sign: "Gemini", start: "05/21", end: "06/20" },
+    { sign: "Cancer", start: "06/21", end: "07/22" },
+    { sign: "Leo", start: "07/23", end: "08/22" },
+    { sign: "Virgo", start: "08/23", end: "09/22" },
+    { sign: "Libra", start: "09/23", end: "10/22" },
+    { sign: "Scorpio", start: "10/23", end: "11/21" },
+    { sign: "Sagittarius", start: "11/22", end: "12/21" }
+  ];
+
+  let horoscope = "Unknown";
+  zodiacSigns.forEach(z => {
+    const [sMonth, sDay] = z.start.split("/").map(Number);
+    const [eMonth, eDay] = z.end.split("/").map(Number);
+    if ((bMonth === sMonth && bDay >= sDay) || (bMonth === eMonth && bDay <= eDay)) {
+      horoscope = z.sign;
+    }
+  });
+
+  document.getElementById("horoscopeSection").style.display = "block";
+  document.getElementById("horoscope").innerText = `Your zodiac sign is ${horoscope}.`;
+
+  // Next Birthday
+  let nextBirthday = new Date(pYear, bMonth - 1, bDay);
+  if (nextBirthday < presentDate) {
+    nextBirthday.setFullYear(pYear + 1);
+  }
+  const diffTime = nextBirthday - presentDate;
+  const diffDays
